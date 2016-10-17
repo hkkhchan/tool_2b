@@ -4,14 +4,20 @@ toolApp.controller('toolAppCtrl', function($scope, ngDialog){
   $scope.remove=function(d){
     if (typeof(d)=='undefined') return '';
     switch ($scope.mode){
+      case 0:
+        var result=d.replace(/<!--([^-]|-[^-])*-->\n/g,'');
+        return result.replace(/<!--([^-]|-[^-])*-->/g,'');
+        break;
       case 1:
-        return d.replace(/<!--([^-]|-[^-])*-->/,'');
+        var result=d.replace(/\/\*(?:[\s\S]*?)\*\/\n/g,'');
+        result=result.replace(/(?:\/\*(?:[\s\S]*?)\*\/)|(?:^\s*\/\/(?:.*)$)/g,'');
+        return result.replace(/\/\/.*?\n/g,'');
         break;
       case 2:
-        return d.replace(/<!--([^-]|-[^-])*-->/,'');
+        return d.replace(/\#\s.*?\n/g,'');
         break;
       default:
-        return d.replace(/<!--([^-]|-[^-])*-->/,'');
+        return d;
         break;
     }
   }
